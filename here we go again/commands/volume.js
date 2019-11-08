@@ -7,8 +7,8 @@ module.exports = {
             message.channel.send("Please enter an integer 1-200")
             return
         }
-        if (args[0] < 0){
-            message.channel.send("Volume option too low")
+        if (args[0] < 0 || args[0] > 200){
+            message.channel.send("Volume option not valid. Enter 1-200")
             return
         }
         volume = args[0] / 100
