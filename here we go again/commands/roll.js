@@ -74,7 +74,6 @@ module.exports = {
             rollEmbed.addField(`Successes:`,success_total)
             rollEmbed.addField(`Failures:`,failures_total)
         
-
         message.channel.send(rollEmbed)
 
     }

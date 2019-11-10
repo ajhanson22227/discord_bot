@@ -8,14 +8,10 @@ module.exports =  {
         if (args.length < 1){
             return
         }
-        var insult = args
-        if (message.author.id == "234108947253035018"){
-            insult = ["Is", "Alex", "Gay?"]
-        }
 
         let pollEmbed = new Discord.RichEmbed()
         pollEmbed.setTitle("Poll")
-        pollEmbed.setDescription(insult.join(" "))
+        pollEmbed.setDescription(args.join(" "))
 
         let pollMessage = await message.channel.send(pollEmbed)
         await pollMessage.react("✅")
