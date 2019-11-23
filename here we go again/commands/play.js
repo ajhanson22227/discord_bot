@@ -26,6 +26,7 @@ module.exports = {
 
         message.member.voiceChannel.join().then(connection => {
             const dispatcher = connection.playStream(ytdl(song))
+            dispatcher.setVolume(.1)
 
             dispatcher.on("error", error => {
                 message.channel.send(error)
