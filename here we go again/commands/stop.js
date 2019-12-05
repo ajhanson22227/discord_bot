@@ -4,8 +4,14 @@ module.exports = {
     description: 'Destroys the bot',
     execute(client, message, args){
     	message.delete(0)
-        if (message.author.id == "231220240774594560"){
-            client.destroy();
-        }else return
+
+    	try{
+	        if (message.author.id == "231220240774594560"){
+	            client.destroy();
+	        }
+	        else return
+    	}catch(e){
+    		console.log(e)
+    	}
     }
 }
