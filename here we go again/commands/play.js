@@ -3,6 +3,7 @@ const queue = new Map();
 const Youtube = require('simple-youtube-api');
 const { youtubeAPI } = require('../config.json');
 const youtube = new Youtube(youtubeAPI);
+const Discord = require('discord.js')
 
 module.exports = {
 
@@ -17,34 +18,80 @@ module.exports = {
             return
         }
         if (!args[0]){
-            message.channel.send("Please give a YouTube link")
+            message.channel.send("Please give a YouTube link/string")
             return
         }
-        let validate = ytdl.validateURL(args[0])
-        if (!validate){
-            //message.channel.send("Please enter a valid YouTube link")
-            //return
-            const videoString = await youtube.searchVideos(args, 1);
-            var video = await youtube.getVideoByID(videoString[0].id);
-            message.channel.send(`Now Playing ${video.title}`);
-            message.channel.send(video.thumbnails.high.url);
-            var songurl = `https://www.youtube.com/watch?v=${video.raw.id}`;
 
-        }
-        else{
-            var songurl = args[0]
-        }
+        try{
+            let validate = ytdl.validateURL(args[0])
 
-        message.member.voiceChannel.join().then(connection => {
-            const dispatcher = connection.playStream(ytdl(songurl))
-            dispatcher.setVolume(.1)
 
-            dispatcher.on("error", error => {
-                message.channel.send(error)
+            if (!validate){
+
+
+                const videoList = await youtube.searchVideos(args, 3);
+                var videoArray = [];
+
+                for (let i = 0; i < videoList.length; i++){
+                    videoArray.push(`${i+1}: ${videoList[i].title}`);
+                }
+                videoArray.push('Exit')
+
+                const embed = new Discord.RichEmbed()
+                    embed.setColor('#e9f931')
+                    embed.setTitle('Choose a song by commenting a number between 1 and 5')
+                    embed.addField('Song 1', videoArray[0])
+                    embed.addField('Song 2', videoArray[1])
+                    embed.addField('Song 3', videoArray[2])
+                    embed.addField('Exit', 'exit');
+                var songEmbed = await message.channel.send({ embed });
+
+                try {
+                     // wait 1 minute for the user's response
+                    var response = await message.channel.awaitMessages(
+                      msg => (msg.content > 0 && msg.content < 4) || msg.content === 'exit',
+                      {
+                        max: 1,
+                        maxProcessed: 1,
+                        time: 60000,
+                        errors: ['time']
+                      }
+                    );
+                    // assign videoIndex to user's response
+                    var videoIndex = parseInt(response.first().content);
+                  } catch (err) {
+                    console.error(err);
+                    songEmbed.delete();
+                    return message.say('Please try again and enter a number between 1 and 5 or exit');
+                  }
+                  // if the user responded with 'exit', cancel the command
+                if (response.first().content === 'exit') return;
+
+                var video = await youtube.getVideoByID(videoList[videoIndex - 1].id);
+
+                 message.channel.send(`Now Playing ${video.title}`);
+                 message.channel.send(video.thumbnails.high.url);
+                 var songurl = `https://www.youtube.com/watch?v=${video.raw.id}`;
+
+            }
+            else{
+                var songurl = args[0]
+            }
+
+            message.member.voiceChannel.join().then(connection => {
+                const dispatcher = connection.playStream(ytdl(songurl))
+                dispatcher.setVolume(.1)
+
+                dispatcher.on("error", error => {
+                    message.channel.send(error)
+                })
+                dispatcher.on("end", end => {
+                    message.member.voiceChannel.leave()
+                })
             })
-            dispatcher.on("end", end => {
-                message.member.voiceChannel.leave()
-            })
-        })
+
+        }catch(e){
+            return console.log(e)
+        }
     }
 }
