@@ -60,10 +60,10 @@ module.exports = {
                     );
                     // assign videoIndex to user's response
                     var videoIndex = parseInt(response.first().content);
-                  } catch (err) {
-                    console.error(err);
+                  } catch (e) {
+                    console.eor(e);
                     songEmbed.delete();
-                    return message.say('Please try again and enter a number between 1 and 5 or exit');
+                    return message.say('Please try again and enter a number between 1 and 3 or exit');
                   }
                   // if the user responded with 'exit', cancel the command
                 if (response.first().content === 'exit') return;
