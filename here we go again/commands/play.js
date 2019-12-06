@@ -10,19 +10,20 @@ module.exports = {
     name: 'play',
     description: 'Plays the given youtube link',
     async execute(client, message, args){
-        message.delete()
-        const serverQueue = queue.get(message.guild.id);
-
-        if (!message.member.voiceChannel){
-            message.channel.send("Please connect to a voice channel")
-            return
-        }
-        if (!args[0]){
-            message.channel.send("Please give a YouTube link/string")
-            return
-        }
-
         try{
+            message.delete()
+            const serverQueue = queue.get(message.guild.id);
+
+            if (!message.member.voiceChannel){
+                message.channel.send("Please connect to a voice channel")
+                return
+            }
+            if (!args[0]){
+                message.channel.send("Please give a YouTube link/string")
+                return
+            }
+
+        
             let validate = ytdl.validateURL(args[0])
 
 
@@ -39,7 +40,7 @@ module.exports = {
 
                 const embed = new Discord.RichEmbed()
                     embed.setColor('#e9f931')
-                    embed.setTitle('Choose a song by commenting a number between 1 and 5')
+                    embed.setTitle('Choose a song by commenting a number between 1 and 3')
                     embed.addField('Song 1', videoArray[0])
                     embed.addField('Song 2', videoArray[1])
                     embed.addField('Song 3', videoArray[2])
