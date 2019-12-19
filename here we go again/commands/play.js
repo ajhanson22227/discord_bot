@@ -11,7 +11,15 @@ module.exports = {
     description: 'Plays the given youtube link',
     async execute(client, message, args){
         try{
-            message.delete()
+
+            try{
+                message.delete()
+            }
+            catch(e){
+                message.channel.send("CANONONOT DELETE")
+            }
+            
+
             const serverQueue = queue.get(message.guild.id);
 
             if (!message.member.voiceChannel){

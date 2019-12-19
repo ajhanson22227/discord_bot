@@ -3,12 +3,17 @@ module.exports = {
     name: 'leave',
     description: 'Leaves the voice channel',
     execute(client, message, args){
-    	message.delete(0)
 
+        try{
+            message.delete(0)
+        }
+        catch(e){
+            message.channel.send("Woops Can't Delete Message");
+        }
 
         try{
         	if (!message.member.voiceChannel){
-                    return
+                    return message.channel.send("You're not in my channel. You're not the boss of me!")
                 }
                 else{
                 	message.member.voiceChannel.leave()
@@ -16,7 +21,7 @@ module.exports = {
                 }
             }
         catch(e){
-        	console.log(e)
+        	return message.channel.send("UwU I made a mistake. Sowwy");
             }
     }
 }

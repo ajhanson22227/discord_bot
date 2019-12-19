@@ -1,6 +1,6 @@
 module.exports = {
 
-    name: 'stop',
+    name: 'destroy',
     description: 'Destroys the bot',
     execute(client, message, args){
         try{
