@@ -19,7 +19,7 @@ module.exports = {
 
       const serverQueue = queue.get(message.guild.id);
 
-      if (!message.member.voiceChannel) {
+      if (!message.member.voice.channel) {
         message.channel.send("Please connect to a voice channel");
         return;
       }
@@ -81,7 +81,7 @@ module.exports = {
         var songurl = args[0];
       }
 
-      message.member.voiceChannel.join().then((connection) => {
+      message.member.voice.channel.join().then((connection) => {
         const dispatcher = connection.playStream(ytdl(songurl));
         dispatcher.setVolume(0.1);
 
@@ -89,7 +89,7 @@ module.exports = {
           message.channel.send(error);
         });
         dispatcher.on("end", (end) => {
-          message.member.voiceChannel.leave();
+          message.member.voice.channel.leave();
         });
       });
     } catch (e) {
