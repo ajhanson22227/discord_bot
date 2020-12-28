@@ -82,7 +82,7 @@ module.exports = {
       }
 
       message.member.voice.channel.join().then((connection) => {
-        const dispatcher = connection.playStream(ytdl(songurl));
+        const dispatcher = connection.play(ytdl(songurl));
         dispatcher.setVolume(0.1);
 
         dispatcher.on("error", (error) => {
