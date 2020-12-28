@@ -3,12 +3,6 @@ module.exports = {
   description: "resume audio",
   execute(client, message, args) {
     try {
-      message.delete(0);
-    } catch (e) {
-      message.channel.send("Woops, can't delete message");
-    }
-
-    try {
       connection = message.guild.voice.connection;
       connection.dispatcher.resume();
     } catch (e) {

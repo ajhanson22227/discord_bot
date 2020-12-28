@@ -3,12 +3,6 @@ module.exports = {
   description: "Pause audio",
   execute(client, message, args) {
     try {
-      message.delete(0);
-    } catch (e) {
-      message.channel.send("Woops Can't Delete Message");
-    }
-
-    try {
       connection = message.guild.voice.connection;
       connection.dispatcher.pause();
     } catch (e) {
