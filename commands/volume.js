@@ -3,7 +3,6 @@ module.exports = {
   description: "Changes volume (1-100)",
   execute(client, message, args) {
     try {
-      message.delete(0);
       if (isNaN(args[0])) {
         message.channel.send("Please enter an integer 1-200");
         return;
