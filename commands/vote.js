@@ -3,7 +3,6 @@ module.exports = {
   name: "vote",
   description: "Vote on user string",
   async execute(client, message, args) {
-    message.delete(0);
     if (args.length < 1) {
       return;
     }
