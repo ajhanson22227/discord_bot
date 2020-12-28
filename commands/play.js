@@ -39,7 +39,7 @@ module.exports = {
         }
         videoArray.push("Exit");
 
-        const embed = new Discord.RichEmbed();
+        const embed = new Discord.MessageEmbed();
         embed.setColor("#e9f931");
         embed.setTitle("Choose a song by commenting a number between 1 and 3");
         embed.addField("Song 1", videoArray[0]);
